@@ -55,21 +55,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createDummyData() {
-        for (int i = 1; i <= 5; i++) {
-
-            SectionDataModel dm = new SectionDataModel();
-
-            dm.setHeaderTitle("Section " + i);
-
-            ArrayList<SingleItemModel> singleItem = new ArrayList<SingleItemModel>();
-            for (int j = 0; j <= 5; j++) {
-                singleItem.add(new SingleItemModel("Item " + j, "URL " + j));
-            }
-
-            dm.setAllItemsInSection(singleItem);
-
-            allSampleData.add(dm);
-
+        SectionDataModel bw = new SectionDataModel();
+        SectionDataModel nw = new SectionDataModel();
+        SectionDataModel pw = new SectionDataModel();
+        nw.setHeaderTitle("Nearby Location ");
+        ArrayList<SingleItemModel> singleItem = new ArrayList<SingleItemModel>();
+        for (int j = 0; j <= 5; j++) {
+            singleItem.add(new SingleItemModel("Item " + j, "URL " + j));
         }
+        pw.setHeaderTitle("Price Range");
+        ArrayList<SingleItemModel> priceItem = new ArrayList<SingleItemModel>();
+        for (int j = 0; j <= 5; j++) {
+            priceItem.add(new SingleItemModel("Item " + j, "URL " + j));
+        }
+        bw.setHeaderTitle("Brand Wise");
+
+        ArrayList<SingleItemModel> brandItem = new ArrayList<SingleItemModel>();
+        for (int j = 0; j <= 5; j++) {
+            brandItem.add(new SingleItemModel("Item " + j, "URL " + j));
+        }
+
+        nw.setAllItemsInSection(singleItem);
+        pw.setAllItemsInSection(singleItem);
+        bw.setAllItemsInSection(singleItem);
+
+        allSampleData.add(nw);
+        allSampleData.add(pw);
+        allSampleData.add(bw);
     }
 }
