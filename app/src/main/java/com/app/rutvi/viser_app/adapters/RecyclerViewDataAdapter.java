@@ -106,7 +106,7 @@ public class RecyclerViewDataAdapter extends RecyclerView.Adapter<RecyclerViewDa
     public class ItemRowHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemTitle;
-
+        //protected TextView itemTv;
         protected RecyclerView recycler_view_list;
 
         protected Button btnMore;
@@ -117,6 +117,7 @@ public class RecyclerViewDataAdapter extends RecyclerView.Adapter<RecyclerViewDa
             super(view);
 
             this.itemTitle = (TextView) view.findViewById(R.id.itemTitle);
+           // this.itemTv = (TextView) view.findViewById(R.id.Tv);
             this.recycler_view_list = (RecyclerView) view.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) view.findViewById(R.id.btnMore);
 

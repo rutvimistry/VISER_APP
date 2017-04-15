@@ -60,19 +60,24 @@ public class MainActivity extends AppCompatActivity {
         SectionDataModel pw = new SectionDataModel();
         nw.setHeaderTitle("Nearby Location ");
         ArrayList<SingleItemModel> singleItem = new ArrayList<SingleItemModel>();
+        float miles = 01;
+        int price = 100;
         for (int j = 0; j <= 5; j++) {
-            singleItem.add(new SingleItemModel("Item " + j, "URL " + j));
+            singleItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
+            //singleItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
         }
         pw.setHeaderTitle("Price Range");
         ArrayList<SingleItemModel> priceItem = new ArrayList<SingleItemModel>();
         for (int j = 0; j <= 5; j++) {
-            priceItem.add(new SingleItemModel("Item " + j, "URL " + j));
+            priceItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
+           // priceItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
         }
         bw.setHeaderTitle("Brand Wise");
 
         ArrayList<SingleItemModel> brandItem = new ArrayList<SingleItemModel>();
         for (int j = 0; j <= 5; j++) {
-            brandItem.add(new SingleItemModel("Item " + j, "URL " + j));
+            brandItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
+            //brandItem.add(new SingleItemModel("Price " + j, "URL " + j, price, miles));
         }
 
         nw.setAllItemsInSection(singleItem);

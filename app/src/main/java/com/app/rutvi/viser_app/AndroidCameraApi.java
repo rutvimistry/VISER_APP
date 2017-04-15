@@ -1,6 +1,8 @@
 package com.app.rutvi.viser_app;
+
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,6 +88,7 @@ public class AndroidCameraApi extends AppCompatActivity {
     private HandlerThread mBackgroundThread;
     private ImageView mPhotoCapturedImageView;
     private TextView txtResult;
+    private int settextforocr = 0;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -251,12 +254,31 @@ public class AndroidCameraApi extends AppCompatActivity {
                                                                       stringBuilder.append(item.getValue());
                                                                       stringBuilder.append("\n");
                                                                   }
+                                                                  //try {
+                                                                    //  Thread.sleep(3000);
+                                                                  //} catch (InterruptedException e) {
+                                                                    //  e.printStackTrace();
+                                                                  //}
                                                                   txtResult.setText(stringBuilder.toString());
+                                                                  //try {
+                                                                    //  Thread.sleep(7000);
+                                                                  //} catch (InterruptedException e) {
+                                                                    //  e.printStackTrace();
+                                                                  //}
+                                                                  settextforocr = 1;
+                                                                  if (settextforocr == 1) {
+                                                                      Intent i = new Intent(AndroidCameraApi.this, MainActivity.class);
+                                                                      startActivity(i);
+                                                                  }
+
                                                               }
+
 
                                                           }
 
+
                                                       }
+
 
                         );
 

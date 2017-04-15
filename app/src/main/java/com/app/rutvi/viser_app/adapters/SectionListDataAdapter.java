@@ -37,7 +37,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
 
         SingleItemModel singleItem = itemsList.get(i);
 
-        holder.tvTitle.setText(singleItem.getName());
+       // holder.tvTitle.setText(singleItem.getName());
+        //holder.tv.setText(singleItem.getName());
 
 
        /* Glide.with(mContext)
@@ -56,7 +57,7 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
         protected TextView tvTitle;
-
+        protected TextView tv;
         protected ImageView itemImage;
 
 
@@ -64,16 +65,15 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
             super(view);
 
             this.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+            this.tv = (TextView) view.findViewById(R.id.tv);
             this.itemImage = (ImageView) view.findViewById(R.id.itemImage);
 
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
                     Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(v.getContext(), tv.getText(), Toast.LENGTH_SHORT).show();
                 }
             });
 

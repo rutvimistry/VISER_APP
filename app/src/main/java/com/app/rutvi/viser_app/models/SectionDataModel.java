@@ -2,23 +2,24 @@ package com.app.rutvi.viser_app.models;
 
 import java.util.ArrayList;
 
-/**
- * Created by pratap.kesaboyina on 30-11-2015.
- */
+
 public class SectionDataModel {
 
 
 
     private String headerTitle;
     private ArrayList<SingleItemModel> allItemsInSection;
-
+    private int price;
+    private float miles;
 
     public SectionDataModel() {
 
     }
-    public SectionDataModel(String headerTitle, ArrayList<SingleItemModel> allItemsInSection) {
+    public SectionDataModel(String headerTitle, ArrayList<SingleItemModel> allItemsInSection, int price, float miles) {
         this.headerTitle = headerTitle;
         this.allItemsInSection = allItemsInSection;
+        this.price =price;
+        this.miles = miles;
     }
 
 
@@ -39,5 +40,19 @@ public class SectionDataModel {
         this.allItemsInSection = allItemsInSection;
     }
 
+    public float getMiles() {
+        return miles;
+    }
 
+    public void setMiles(float miles) {
+        this.miles = miles;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }
