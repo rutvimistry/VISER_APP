@@ -20,6 +20,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -47,16 +48,20 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 public class AndroidCameraApi extends AppCompatActivity {
 
 
@@ -66,6 +71,7 @@ public class AndroidCameraApi extends AppCompatActivity {
     private TextureView textureView;
     private TextRecognizer textrecognizer;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    // private cusrsor c = null;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -182,6 +188,74 @@ public class AndroidCameraApi extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    private class GetAPIResponseTask extends AsyncTask<URL, Integer, String> {
+        private String parameter = "";
+        public GetAPIResponseTask(String s) {
+            parameter = s;
+        }
+
+        // first function that must override
+        protected String doInBackground(URL... urls) {
+            String APIResponse = "";
+            int count = urls.length; // in case we pass in multiple urls, but in our case we will only pass in one url
+            for (int i = 0; i < count; i++) {
+                try {
+                    // Create connection
+                    HttpURLConnection myConnection = (HttpURLConnection) urls[i].openConnection();
+                    myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+                    myConnection.setRequestMethod("POST");
+                    // Enable writing
+                    myConnection.setDoOutput(true);
+                    // Write the data
+                    myConnection.getOutputStream().write(parameter.getBytes());
+
+                    //parameter.toString();
+                    //String mystr;
+                    //mystr = parameter.toString();
+
+
+                    if (myConnection.getResponseCode() == 200) {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(myConnection.getInputStream()));
+                        String temp;
+                        while ((temp = in.readLine()) != null) {
+                            APIResponse += temp + '\n';
+
+                        }
+
+                        settextforocr = 1;
+                        if (settextforocr == 1) {
+                            Intent intent = new Intent(AndroidCameraApi.this, MainActivity.class);
+                            intent.putExtra("productDetails", APIResponse);
+                            startActivity(intent);
+                        }
+                        in.close();
+
+
+
+                    } else {
+                        APIResponse = "Not 200";
+                    }
+                    myConnection.disconnect();
+                }
+                catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (APIResponse.equals("")) {
+                APIResponse = "Didn't get anything";
+            }
+            return APIResponse;
+        }
+
+        // **IMPORTANT**: the return value cannot be used in the method above (inside asyncTask)
+        //SO when we need to use the returned string, it has to be processed in the 2nd function that must override
+        //For example I used the returned string to simply display it in a textView
+        protected void onPostExecute(String result) {
+            //TextView textView = (TextView) findViewById(R.id.textView);
+            //textView.setText(result);
+            System.out.println(result);
+        }
+    }
 
     protected void takePicture() {
         if (null == cameraDevice) {
@@ -225,10 +299,13 @@ public class AndroidCameraApi extends AppCompatActivity {
                         buffer.get(bytes);
                         save(bytes);
                         final Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+                        //Intent intent = new Intent(AndroidCameraApi.this, Main2Activity.class);
+                        //intent.putExtra("BitmapImage", bitmap);
                         try {
                             //bitmap.setPixel(1024,678,0);
                             mPhotoCapturedImageView.getDisplay();
                             mPhotoCapturedImageView.setImageBitmap(bitmap);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -253,23 +330,36 @@ public class AndroidCameraApi extends AppCompatActivity {
                                                                       TextBlock item = items.valueAt(i);
                                                                       stringBuilder.append(item.getValue());
                                                                       stringBuilder.append("\n");
+                                                                      System.out.println(stringBuilder.toString());
+
                                                                   }
                                                                   //try {
                                                                     //  Thread.sleep(3000);
                                                                   //} catch (InterruptedException e) {
                                                                     //  e.printStackTrace();
                                                                   //}
+                                                                  try {
+                                                                      URL githubEndpoint = new URL("http://ec2-52-42-60-157.us-west-2.compute.amazonaws.com:8080/testPost");
+
+                                                                      //   ***** This is how we create an AsyncTask and call the API *****
+                                                                      // The string for the POST API is passed to the class constructor
+                                                                      // It must have "rawString=" as prefix so that the server can find the string with key-value pair
+
+                                                                      new GetAPIResponseTask("rawString="+ stringBuilder.toString()).execute(githubEndpoint);
+                                                                  } catch (MalformedURLException e) {
+                                                                      e.printStackTrace();
+                                                                  }
                                                                   txtResult.setText(stringBuilder.toString());
+                                                                  //python calls
+                                                                  //GET
+                                                                  // DB connection
+
                                                                   //try {
                                                                     //  Thread.sleep(7000);
                                                                   //} catch (InterruptedException e) {
                                                                     //  e.printStackTrace();
                                                                   //}
-                                                                  settextforocr = 1;
-                                                                  if (settextforocr == 1) {
-                                                                      Intent i = new Intent(AndroidCameraApi.this, MainActivity.class);
-                                                                      startActivity(i);
-                                                                  }
+
 
                                                               }
 

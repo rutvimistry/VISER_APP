@@ -1,5 +1,7 @@
 package com.app.rutvi.viser_app;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-
+    Cursor c = null;
 
     public ArrayList<SectionDataModel> allSampleData;
 
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createDummyData() {
+        Intent intent = getIntent();
+        String productDetails = intent.getExtras().getString("productDetails");
+        System.out.println("productDetails aaaa dena: " + productDetails);
         SectionDataModel bw = new SectionDataModel();
         SectionDataModel nw = new SectionDataModel();
         SectionDataModel pw = new SectionDataModel();
@@ -89,3 +94,31 @@ public class MainActivity extends AppCompatActivity {
         allSampleData.add(bw);
     }
 }
+//    public void onClick(View v) {
+//                DatabaseHelper myDbHelper = new DatabaseHelper(CopyingDBActivity.this);
+//                try {
+//                    myDbHelper.createDataBase();
+//                } catch (IOException ioe) {
+//                    throw new Error("Unable to create database");
+//                }
+//                try {
+//                    myDbHelper.openDatabase();
+//                } catch (SQLException sqle) {
+//                    throw sqle;
+//                }
+//                Toast.makeText(CopyingDBActivity.this, "Success", Toast.LENGTH_SHORT).show();
+//                c = myDbHelper.query("Bargain_List", null, null, null, null, null, null);
+//                if (c.moveToFirst()) {
+//                    do {
+//                        Toast.makeText(CopyingDBActivity.this,
+//                                "grp_id: " + c.getString(0) + "\n" +
+//                                        "UPC14: " + c.getString(1) + "\n" +
+//                                        "UPC12: " + c.getString(2) + "\n" +
+//                                        "brand:  " + c.getString(3) +"\n"+
+//                                        "name:  " + c.getString(4) +"\n"+
+//                                        "Location:  " + c.getString(4) +"\n"+
+//                                        "Price:  " + c.getString(4),
+//                                Toast.LENGTH_LONG).show();
+//                    } while (c.moveToNext());
+//                }
+//            }
